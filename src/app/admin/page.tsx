@@ -6,6 +6,7 @@ import {
   ListChecks,
   ExternalLink,
   MousePointerClick,
+  QrCode,
 } from "lucide-react";
 import { requireAdmin } from "@/lib/admin";
 import { DeleteEventButton } from "@/components/admin/DeleteEventButton";
@@ -169,6 +170,14 @@ export default async function AdminDashboard() {
                             className="rounded-lg p-2 text-slate-400 transition hover:bg-white/5 hover:text-white"
                           >
                             <ExternalLink size={16} />
+                          </Link>
+                          <Link
+                            href={`/qr/${event.slug}`}
+                            title="QR code"
+                            target="_blank"
+                            className="rounded-lg p-2 text-slate-400 transition hover:bg-white/5 hover:text-emerald-300"
+                          >
+                            <QrCode size={16} />
                           </Link>
                           <Link
                             href={`/admin/events/${event.id}/registrations`}

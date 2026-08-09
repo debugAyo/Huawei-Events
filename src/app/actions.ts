@@ -14,6 +14,13 @@ import {
   validateRegistrationInput,
 } from "@/lib/validation";
 import { createRateLimiter } from "@/lib/rateLimit";
+import {
+  isEmailConfigured,
+  sendAttendeeConfirmation,
+  sendAdminNewRegistration,
+  type RegistrationEmailData,
+} from "@/lib/email";
+import { formatDate, formatTime, getEventShortUrl } from "@/lib/utils";
 
 // ---------------------------------------------------------------------------
 // Public registration
@@ -84,6 +91,16 @@ export async function registerForEvent(
     return { error: "Something went wrong. Please try again." };
   }
 
+  if (isEmailConfigured) {
+    void notifyRegistration(eventId, {
+      fullName,
+      email,
+      registrationId: data.registration_id as string,
+      status: data.status as RegistrationStatus,
+      waitlist_position: data.waitlist_position as number,
+    });
+  }
+
   return {
     success: true,
     status: data.status as RegistrationStatus,
@@ -91,6 +108,50 @@ export async function registerForEvent(
     registration_id: data.registration_id as string,
     email,
   };
+}
+
+async function notifyRegistration(
+  eventId: string,
+  info: {
+    fullName: string;
+    email: string;
+    registrationId: string;
+    status: RegistrationStatus;
+    waitlist_position: number;
+  },
+): Promise<void> {
+  try {
+    const supabase = await createClient();
+    const { data: event } = await supabase
+      .from("events")
+      .select("title, start_time, venue, city, slug")
+      .eq("id", eventId)
+      .maybeSingle();
+    if (!event) return;
+
+    const emailData: RegistrationEmailData = {
+      eventTitle: event.title,
+      eventDate: formatDate(event.start_time),
+      eventTime: formatTime(event.start_time),
+      venue: event.venue ?? "TBA",
+      city: event.city ?? "",
+      registrationId: info.registrationId,
+      fullName: info.fullName,
+      email: info.email,
+      status: info.status,
+      waitlistPosition: info.waitlist_position,
+      eventUrl: getEventShortUrl(event.slug),
+    };
+
+    await sendAttendeeConfirmation(info.email, emailData);
+
+    const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
+    if (adminEmail) {
+      await sendAdminNewRegistration(adminEmail, emailData);
+    }
+  } catch (err) {
+    console.error("[email] failed to notify", err);
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -21,6 +21,7 @@ import {
   isSupabaseConfigured,
   cn,
 } from "@/lib/utils";
+import { generateEventQrDataUrl } from "@/lib/qrcode";
 
 export const dynamic = "force-dynamic";
 
@@ -100,6 +101,7 @@ export default async function EventPage({
 
   const shortUrl = getEventShortUrl(event.slug);
   const description: string | null = event.description;
+  const qrDataUrl = await generateEventQrDataUrl(shortUrl);
 
   return (
     <article className="mx-auto max-w-5xl px-4 py-10">
@@ -276,6 +278,19 @@ export default async function EventPage({
                 </span>
                 <CopyLinkButton url={shortUrl} />
               </div>
+              <div className="mt-4 flex items-center justify-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={qrDataUrl}
+                  alt={`QR code to register for ${event.title}`}
+                  width={160}
+                  height={160}
+                  className="rounded-xl bg-white p-2"
+                />
+              </div>
+              <p className="mt-2 text-center text-xs text-slate-500">
+                Scan to open registration
+              </p>
             </div>
           </div>
         </aside>
