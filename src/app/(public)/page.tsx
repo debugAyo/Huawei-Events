@@ -50,15 +50,14 @@ export default async function Home() {
     <>
       {/* Hero */}
       <section className="relative overflow-hidden border-b border-white/10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,0.15),transparent_60%)]" />
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-center sm:py-28">
-          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-1.5 text-xs font-semibold text-emerald-300">
+          <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-emerald-500 px-4 py-1.5 text-xs font-semibold text-white">
             <Sparkles size={14} />
             Huawei
           </span>
           <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">
             Learn. Build.{" "}
-            <span className="bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">
+            <span className="text-emerald-500">
               Ship.
             </span>
           </h1>

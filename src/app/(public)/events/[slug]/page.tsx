@@ -210,7 +210,7 @@ export default async function EventPage({
                 <div
                   className={cn(
                     "h-full rounded-full transition-all",
-                    isFull ? "bg-rose-400" : "bg-emerald-400",
+                    isFull ? "bg-rose-400" : "bg-green-400",
                   )}
                   style={{
                     width: `${Math.min(
@@ -255,7 +255,7 @@ export default async function EventPage({
                     ? "bg-slate-500/10 text-slate-400"
                     : isFull
                       ? "bg-rose-400/10 text-rose-300"
-                      : "bg-emerald-400/10 text-emerald-300",
+                      : "bg-green-400/10 text-green-300",
                 )}
               >
                 {isPast ? "Ended" : isFull ? "Full" : "Open"}

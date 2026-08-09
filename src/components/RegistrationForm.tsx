@@ -35,14 +35,14 @@ export function RegistrationForm({
   if (state.success) {
     return (
       <div className="space-y-4">
-        <div className="flex items-start gap-3 rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4">
+        <div className="flex items-start gap-3 rounded-xl border border-green-400/30 bg-green-400/10 p-4">
           {state.status === "waitlisted" ? (
             <AlertTriangle size={20} className="mt-0.5 shrink-0 text-amber-300" />
           ) : (
-            <PartyPopper size={20} className="mt-0.5 shrink-0 text-emerald-300" />
+            <PartyPopper size={20} className="mt-0.5 shrink-0 text-green-300" />
           )}
           <div className="text-sm">
-            <p className="font-semibold text-emerald-200">
+            <p className="font-semibold text-green-200">
               {state.status === "waitlisted"
                 ? "You're on the waitlist"
                 : "You're registered!"}
@@ -69,7 +69,7 @@ export function RegistrationForm({
             <span className="flex items-center gap-1.5 uppercase tracking-wide">
               <Ticket size={13} /> Confirmation
             </span>
-            <span className="font-mono uppercase text-emerald-300">
+            <span className="font-mono uppercase text-green-300">
               {state.status === "waitlisted" ? "WL" : "OK"}
             </span>
           </div>

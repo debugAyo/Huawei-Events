@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030712;
+  --background: #000101;
   --foreground: #f1f5f9;
 }
 
@@ -10,6 +10,27 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+}
+
+/* Huawei brand palette — Huawei Red (#C7000B) used as one solid, flat color
+   exactly as on huawei.com (color / background / border), with Huawei Black
+   surfaces. No gradients. */
+@theme {
+  --color-emerald-50: #fdf2f3;
+  --color-emerald-100: #fadfe0;
+  --color-emerald-200: #f5c0c1;
+  --color-emerald-300: #c7000b;
+  --color-emerald-400: #c7000b;
+  --color-emerald-500: #c7000b;
+  --color-emerald-600: #b0000d;
+  --color-emerald-700: #8e000a;
+  --color-emerald-800: #6b0008;
+  --color-emerald-900: #470005;
+  --color-emerald-950: #290003;
+
+  --color-slate-800: #2b333f;
+  --color-slate-900: #191919;
+  --color-slate-950: #000101;
 }
 
 html {

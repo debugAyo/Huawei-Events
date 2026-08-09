@@ -155,7 +155,7 @@ export function RegistrationsTable({
   }
 
   const STATUS_STYLES: Record<RegistrationStatus, string> = {
-    confirmed: "bg-emerald-400/10 text-emerald-300",
+    confirmed: "bg-green-400/10 text-green-300",
     waitlisted: "bg-amber-400/10 text-amber-300",
     cancelled: "bg-rose-400/10 text-rose-300",
     checked_in: "bg-sky-400/10 text-sky-300",

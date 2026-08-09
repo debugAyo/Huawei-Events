@@ -93,7 +93,7 @@ export function EventCard({
                     ? "text-rose-400"
                     : spotsLeft <= 10
                       ? "text-amber-400"
-                      : "text-emerald-400",
+                      : "text-green-400",
                 )}
               >
                 <Users size={14} />

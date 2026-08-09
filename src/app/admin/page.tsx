@@ -15,7 +15,7 @@ import type { EventRow } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 const STATUS_STYLES: Record<string, string> = {
-  published: "bg-emerald-400/10 text-emerald-300",
+  published: "bg-green-400/10 text-green-300",
   draft: "bg-slate-400/10 text-slate-300",
   cancelled: "bg-rose-400/10 text-rose-300",
   completed: "bg-sky-400/10 text-sky-300",
@@ -151,7 +151,7 @@ export default async function AdminDashboard() {
                         {formatDate(event.start_time)}
                       </td>
                       <td className="px-4 py-4">
-                        <span className="font-semibold text-emerald-300">
+                        <span className="font-semibold text-green-300">
                           {c?.confirmed ?? 0}
                         </span>
                         <span className="text-slate-500">

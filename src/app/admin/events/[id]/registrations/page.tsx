@@ -57,7 +57,7 @@ export default async function RegistrationsPage({
         <div className="rounded-2xl border border-white/10 bg-slate-900/60 p-5">
           <div className="flex items-center justify-between">
             <span className="text-sm text-slate-400">Confirmed</span>
-            <CheckCircle2 size={18} className="text-emerald-400" />
+            <CheckCircle2 size={18} className="text-green-400" />
           </div>
           <div className="mt-2 text-3xl font-bold">
             {confirmed}
