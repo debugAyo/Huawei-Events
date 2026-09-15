@@ -4,9 +4,16 @@
 -- 2. Replace the email below, then run this whole file in the SQL Editor.
 -- ============================================================================
 
+insert into public.profiles (id, email)
+select id, email
+from auth.users
+where lower(email) = lower('REPLACE_WITH_YOUR_EMAIL@example.com')
+on conflict (id) do update
+set email = excluded.email;
+
 update public.profiles
 set is_admin = true
-where email = 'REPLACE_WITH_YOUR_EMAIL@example.com';
+where lower(email) = lower('REPLACE_WITH_YOUR_EMAIL@example.com');
 
 -- Verify it worked:
 select email, is_admin, created_at

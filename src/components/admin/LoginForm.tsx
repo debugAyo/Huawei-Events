@@ -116,6 +116,12 @@ function LoginFormInner() {
             {loading && <Loader2 size={16} className="animate-spin" />}
             Sign in
           </button>
+          <a
+            href="/admin/reset-password"
+            className="block text-center text-xs text-slate-400 transition hover:text-emerald-300"
+          >
+            Forgot password?
+          </a>
         </form>
       </div>
     </div>
