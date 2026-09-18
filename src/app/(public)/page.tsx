@@ -7,7 +7,7 @@ import { SetupBanner } from "@/components/SetupBanner";
 import { isSupabaseConfigured } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Upcoming events at Huawei",
+  title: "Upcoming events at Huawei ICT Academy",
 };
 
 export const dynamic = "force-dynamic";
@@ -53,7 +53,7 @@ export default async function Home() {
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-center sm:py-28">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-emerald-500 px-4 py-1.5 text-xs font-semibold text-white">
             <Sparkles size={14} />
-            Huawei
+            Huawei ICT Academy
           </span>
           <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">
             Learn. Build.{" "}
@@ -62,7 +62,8 @@ export default async function Home() {
             </span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
-            Discover workshops, hackathons and community events from Huawei —
+            Discover workshops, hackathons and community events from Huawei ICT
+            Academy —
             register in seconds, no account needed.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">

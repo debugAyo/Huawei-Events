@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "Huawei Events",
-    template: "%s | Huawei Events",
-  },
-  description:
-    "Discover, register for and manage events at Huawei.",
+    title: {
+      default: "Huawei ICT Academy",
+      template: "%s | Huawei ICT Academy",
+    },
+    description:
+      "Discover, register for and manage events at Huawei ICT Academy.",
 };
 
 export default function RootLayout({

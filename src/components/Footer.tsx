@@ -10,10 +10,11 @@ export function Footer() {
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-500 text-slate-950">
               <Zap size={16} strokeWidth={2.5} />
             </span>
-            <span className="font-bold">HuaweiEvents</span>
+            <span className="font-bold">Huawei ICT Academy</span>
           </div>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-400">
-            The events platform of Huawei. Discover, register and grow with us.
+            The events platform of Huawei ICT Academy. Discover, register and grow
+            with us.
           </p>
         </div>
 
@@ -41,12 +42,12 @@ export function Footer() {
           </h3>
           <ul className="mt-3 space-y-2 text-sm text-slate-400">
             <li className="flex items-center gap-2">
-              <MapPin size={15} /> Huawei, Minna
+              <MapPin size={15} /> Huawei ICT Academy, FUT Minna
             </li>
             <li className="flex items-center gap-2">
               <Mail size={15} />
-              <a href="mailto:hello@huaweievents.dev" className="hover:text-emerald-400">
-                hello@huaweievents.dev
+              <a href="mailto:huawei@futminna.edu.ng" className="hover:text-emerald-400">
+                huawei@futminna.edu.ng
               </a>
             </li>
           </ul>

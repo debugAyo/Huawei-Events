@@ -154,7 +154,14 @@ create table if not exists public.registrations (
 );
 
 create index if not exists registrations_event_idx on public.registrations (event_id);
-create index if not exists registrations_event_email_idx on public.registrations (event_id, email);
+-- One ACTIVE registration per (event, email). Cancelled rows are excluded so a
+-- user who cancelled can register again. Combined with the unique_violation
+-- handler in register_for_event, this closes the race between two concurrent
+-- requests for the same email.
+drop index if exists registrations_event_email_idx;
+create unique index if not exists registrations_event_email_key
+  on public.registrations (event_id, lower(email))
+  where status <> 'cancelled';
 
 alter table public.registrations enable row level security;
 
@@ -212,7 +219,7 @@ declare
   v_capacity int;
   v_count int;
   v_status text;
-  v_existing uuid;
+  v_registration_id uuid;
   v_waitlist_position int;
 begin
   -- Lock the event row so capacity checks are serialised per event.
@@ -224,16 +231,6 @@ begin
 
   if not found then
     raise exception 'EVENT_NOT_FOUND';
-  end if;
-
-  select id
-    into v_existing
-    from public.registrations
-    where event_id = p_event_id
-      and lower(email) = lower(p_email);
-
-  if v_existing is not null then
-    raise exception 'ALREADY_REGISTERED';
   end if;
 
   if v_capacity is null then
@@ -251,15 +248,23 @@ begin
     end if;
   end if;
 
-  insert into public.registrations (
-    event_id, full_name, email, phone, matric_number,
-    department, level, notes, status
-  )
-  values (
-    p_event_id, p_full_name, p_email, p_phone, p_matric_number,
-    p_department, p_level, p_notes, v_status
-  )
-  returning id into v_existing;
+  -- The unique partial index (event_id, lower(email)) is the source of truth
+  -- for the "one active registration per email" rule, so concurrent requests
+  -- for the same email cannot both slip through.
+  begin
+    insert into public.registrations (
+      event_id, full_name, email, phone, matric_number,
+      department, level, notes, status
+    )
+    values (
+      p_event_id, p_full_name, p_email, p_phone, p_matric_number,
+      p_department, p_level, p_notes, v_status
+    )
+    returning id into v_registration_id;
+  exception
+    when unique_violation then
+      raise exception 'ALREADY_REGISTERED';
+  end;
 
   if v_status = 'waitlisted' then
     select count(*)
@@ -271,7 +276,7 @@ begin
   end if;
 
   return jsonb_build_object(
-    'registration_id', v_existing,
+    'registration_id', v_registration_id,
     'status', v_status,
     'waitlist_position', v_waitlist_position
   );
@@ -291,3 +296,38 @@ as $$
     set click_count = click_count + 1
     where slug = p_slug;
 $$;
+
+-- ---------------------------------------------------------------------------
+-- Freeing a seat: when a confirmed registration is cancelled, promote the
+-- oldest waitlisted registrant to confirmed so capacity stays accurate.
+-- ---------------------------------------------------------------------------
+create or replace function public.promote_waitlist_after_cancel()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if old.status = 'confirmed' and new.status = 'cancelled' then
+    update public.registrations
+      set status = 'confirmed'
+      where id = (
+        select id
+        from public.registrations
+        where event_id = old.event_id
+          and status = 'waitlisted'
+        order by created_at asc, id asc
+        limit 1
+        for update skip locked
+      );
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists registrations_promote_on_cancel on public.registrations;
+create trigger registrations_promote_on_cancel
+  after update of status on public.registrations
+  for each row
+  when (old.status = 'confirmed' and new.status = 'cancelled')
+  execute function public.promote_waitlist_after_cancel();

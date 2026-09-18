@@ -4,7 +4,7 @@ export const isEmailConfigured = Boolean(RESEND_API_KEY);
 
 const FROM =
   process.env.EMAIL_FROM ??
-  "Huawei Events <onboarding@resend.dev>";
+  "Huawei ICT Academy <onboarding@resend.dev>";
 
 export async function sendEmail(opts: {
   to: string | string[];
@@ -40,14 +40,14 @@ function shell(title: string, body: string): string {
 <html>
   <body style="margin:0;background:#f5f5f4;font-family:Arial,Helvetica,sans-serif;color:#111">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;padding:24px 16px">
-      <tr><td style="font-size:20px;font-weight:700;color:#c7000b;padding-bottom:16px">Huawei Events</td></tr>
+      <tr><td style="font-size:20px;font-weight:700;color:#c7000b;padding-bottom:16px">Huawei ICT Academy</td></tr>
       <tr>
         <td style="background:#ffffff;border-radius:12px;padding:28px;border:1px solid #ececec">
           <h1 style="margin:0 0 16px;font-size:18px;font-weight:700">${title}</h1>
           ${body}
         </td>
       </tr>
-      <tr><td style="padding-top:20px;font-size:12px;color:#888">You received this email from Huawei Events.</td></tr>
+      <tr><td style="padding-top:20px;font-size:12px;color:#888">You received this email from Huawei ICT Academy.</td></tr>
     </table>
   </body>
 </html>`;

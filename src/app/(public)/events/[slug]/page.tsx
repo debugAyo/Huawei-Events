@@ -49,7 +49,7 @@ export async function generateMetadata({
     title: event.title,
     description:
       event.tagline ??
-      `Join ${event.title} at Huawei on ${formatDate(event.start_time)}.`,
+      `Join ${event.title} at Huawei ICT Academy on ${formatDate(event.start_time)}.`,
     openGraph: {
       title: event.title,
       description: event.tagline ?? undefined,

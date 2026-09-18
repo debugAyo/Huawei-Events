@@ -52,7 +52,7 @@ export function AdminShell({
         </span>
         <div>
           <div className="text-sm font-bold leading-tight">
-            Huawei<span className="text-emerald-400">Events</span>
+            Huawei<span className="text-emerald-400"> ICT Academy</span>
           </div>
           <div className="text-[10px] uppercase tracking-wider text-slate-500">
             Admin panel
@@ -108,7 +108,7 @@ export function AdminShell({
               <Zap size={16} strokeWidth={2.5} />
             </span>
             <span className="text-sm font-bold">
-              Huawei<span className="text-emerald-400">Events</span>
+              Huawei<span className="text-emerald-400"> ICT Academy</span>
             </span>
           </Link>
           <button

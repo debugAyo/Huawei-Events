@@ -141,8 +141,8 @@ src/
 
 - **Duplicate registration** — the same email can only register once per
   event; the waitlist uses the same rule.
-- **Freeing a seat** — cancelling a confirmed registration frees a slot for
-  the first waitlisted person (promote them manually in the admin panel).
+- **Freeing a seat** — cancelling a confirmed registration automatically
+  promotes the oldest waitlisted registrant to confirmed.
 - **Cover images** — paste any public image URL (e.g. Unsplash). Uploads are
   out of scope; use Supabase Storage or an image host if needed.
 - **Security** — RLS means the public can only read published events and

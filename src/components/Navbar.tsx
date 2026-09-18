@@ -21,7 +21,7 @@ export function Navbar() {
             <Zap size={18} strokeWidth={2.5} />
           </span>
           <span className="text-lg font-bold tracking-tight">
-            Huawei<span className="text-emerald-400">Events</span>
+            Huawei<span className="text-emerald-400"> ICT Academy</span>
           </span>
         </Link>
 

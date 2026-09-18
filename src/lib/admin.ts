@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -23,7 +23,7 @@ export async function requireAdmin() {
     .maybeSingle();
 
   if (!profile?.is_admin) {
-    notFound();
+    redirect("/admin/login?error=not_admin");
   }
 
   return { supabase, user };

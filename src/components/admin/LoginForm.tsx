@@ -44,7 +44,7 @@ function LoginFormInner() {
           </span>
           <h1 className="mt-4 text-xl font-bold">Admin sign in</h1>
           <p className="mt-1 text-sm text-slate-400">
-            Huawei Events management panel
+            Huawei ICT Academy management panel
           </p>
         </div>
 

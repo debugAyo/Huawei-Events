@@ -6,7 +6,13 @@ import { isSupabaseConfigured } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Admin sign in" };
 
-export default async function AdminLoginPage() {
+export default async function AdminLoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+
   if (!isSupabaseConfigured()) {
     return (
       <div className="mx-auto max-w-md px-4 py-20 text-center text-sm text-slate-400">
@@ -20,7 +26,7 @@ export default async function AdminLoginPage() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (user) redirect("/admin");
+  if (user && !error) redirect("/admin");
 
   return <LoginForm />;
 }

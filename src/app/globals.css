@@ -42,3 +42,66 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* ===== Animated background orbs ===== */
+/* Huawei-red glow orbs drift slowly behind the whole site. */
+
+@keyframes drift-1 {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(80px, -60px, 0) scale(1.2);
+  }
+}
+
+@keyframes drift-2 {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-90px, 70px, 0) scale(0.85);
+  }
+}
+
+@keyframes drift-3 {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(60px, 100px, 0) scale(1.3);
+  }
+}
+
+@keyframes orb-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.orb-a {
+  animation: drift-1 18s ease-in-out infinite, orb-pulse 9s ease-in-out infinite;
+}
+
+.orb-b {
+  animation: drift-2 24s ease-in-out infinite, orb-pulse 11s ease-in-out infinite;
+}
+
+.orb-c {
+  animation: drift-3 30s ease-in-out infinite, orb-pulse 12s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb-a,
+  .orb-b,
+  .orb-c {
+    animation: none !important;
+  }
+}
