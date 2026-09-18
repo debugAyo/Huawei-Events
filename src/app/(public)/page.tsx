@@ -61,7 +61,7 @@ export default async function Home() {
               Ship.
             </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-slate-400 sm:text-lg">
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-[var(--muted-foreground)] sm:text-lg">
             Discover workshops, hackathons and community events from Huawei ICT
             Academy —
             register in seconds, no account needed.
@@ -85,7 +85,7 @@ export default async function Home() {
               <CalendarClock className="text-emerald-400" size={22} />
               Upcoming events
             </h2>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-[var(--muted-foreground)]">
               {upcoming.length} event{upcoming.length === 1 ? "" : "s"} on the
               way.
             </p>

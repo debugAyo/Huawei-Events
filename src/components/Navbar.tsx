@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { href: "/#events", label: "Events" },
@@ -20,7 +21,7 @@ export function Navbar() {
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-500 text-slate-950">
             <Zap size={18} strokeWidth={2.5} />
           </span>
-          <span className="text-lg font-bold tracking-tight">
+          <span className="text-lg font-bold tracking-tight text-white">
             Huawei<span className="text-emerald-400"> ICT Academy</span>
           </span>
         </Link>
@@ -35,12 +36,7 @@ export function Navbar() {
               {l.label}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            className="rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-emerald-400/50 hover:text-emerald-300"
-          >
-            Admin
-          </Link>
+          <ThemeToggle compact />
         </div>
 
         <button
@@ -64,13 +60,9 @@ export function Navbar() {
               {l.label}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            onClick={() => setOpen(false)}
-            className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/5"
-          >
-            Admin
-          </Link>
+          <div className="flex items-center gap-2 px-3 py-2">
+            <ThemeToggle compact />
+          </div>
         </div>
       </div>
     </header>

@@ -1,24 +1,29 @@
 @import "tailwindcss";
 
+/* Huawei ICT Academy — Huawei White (default) + Huawei Black (.dark)
+   Huawei Red #C7000B is the one accent in both. Flat, no gradients,
+   Tailwind v4 remaps color utilities to CSS vars. */
+
 :root {
-  --background: #000101;
-  --foreground: #f1f5f9;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-/* Huawei brand palette — Huawei Red (#C7000B) used as one solid, flat color
-   exactly as on huawei.com (color / background / border), with Huawei Black
-   surfaces. No gradients. */
-@theme {
+  --background: #ffffff;
+  --foreground: #141414;
+  --muted-foreground: #69717e;
+  --color-white: #ffffff;
+  --color-black: #141414;
+  --color-slate-50: #ffffff;
+  --color-slate-100: #f7f7f7;
+  --color-slate-200: #eceef1;
+  --color-slate-300: #e2e7ec;
+  --color-slate-400: #d4d8de;
+  --color-slate-500: #9aa1ab;
+  --color-slate-600: #69717e;
+  --color-slate-700: #4a4f5a;
+  --color-slate-800: #2e333d;
+  --color-slate-900: #191919;
+  --color-slate-950: #141414;
   --color-emerald-50: #fdf2f3;
-  --color-emerald-100: #fadfe0;
-  --color-emerald-200: #f5c0c1;
+  --color-emerald-100: #fcd9da;
+  --color-emerald-200: #c7000b;
   --color-emerald-300: #c7000b;
   --color-emerald-400: #c7000b;
   --color-emerald-500: #c7000b;
@@ -27,14 +32,37 @@
   --color-emerald-800: #6b0008;
   --color-emerald-900: #470005;
   --color-emerald-950: #290003;
+}
 
+.dark {
+  --background: #000101;
+  --foreground: #f7f7f7;
+  --muted-foreground: #94a3b8;
+  --color-white: #ffffff;
+  --color-black: #000101;
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
   --color-slate-800: #2b333f;
   --color-slate-900: #191919;
   --color-slate-950: #000101;
-}
-
-html {
-  scroll-behavior: smooth;
+  --color-emerald-50: #fdf2f3;
+  --color-emerald-100: #fadfe0;
+  --color-emerald-200: #c7000b;
+  --color-emerald-300: #c7000b;
+  --color-emerald-400: #c7000b;
+  --color-emerald-500: #c7000b;
+  --color-emerald-600: #b0000d;
+  --color-emerald-700: #8e000a;
+  --color-emerald-800: #6b0008;
+  --color-emerald-900: #470005;
+  --color-emerald-950: #290003;
+  color-scheme: dark;
 }
 
 body {
@@ -43,65 +71,30 @@ body {
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* ===== Animated background orbs ===== */
-/* Huawei-red glow orbs drift slowly behind the whole site. */
-
 @keyframes drift-1 {
   0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(80px, -60px, 0) scale(1.2);
-  }
+  100% { transform: translate3d(80px, -50px, 0) scale(1.15); }
+  50% { transform: translate3d(-40px, 80px, 0) scale(0.9); }
 }
-
 @keyframes drift-2 {
   0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-90px, 70px, 0) scale(0.85);
-  }
+  100% { transform: translate3d(-70px, 80px, 0) scale(0.95); }
+  50% { transform: translate3d(50px, -60px, 0) scale(1.25); }
 }
-
 @keyframes drift-3 {
   0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(60px, 100px, 0) scale(1.3);
-  }
+  100% { transform: translate3d(0, 40px, 0) scale(0.9); }
+  50% { transform: translate3d(70px, -40px, 0) scale(1.3); }
 }
-
 @keyframes orb-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-  50% {
-    opacity: 0.9;
-  }
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
 }
 
-.orb-a {
-  animation: drift-1 18s ease-in-out infinite, orb-pulse 9s ease-in-out infinite;
-}
-
-.orb-b {
-  animation: drift-2 24s ease-in-out infinite, orb-pulse 11s ease-in-out infinite;
-}
-
-.orb-c {
-  animation: drift-3 30s ease-in-out infinite, orb-pulse 12s ease-in-out infinite;
-}
+.orb-a { animation: drift-1 18s ease-in-out infinite, orb-pulse 9s ease-in-out infinite; }
+.orb-b { animation: drift-2 22s ease-in-out infinite, orb-pulse 10s ease-in-out infinite; }
+.orb-c { animation: drift-3 26s ease-in-out infinite, orb-pulse 11s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .orb-a,
-  .orb-b,
-  .orb-c {
-    animation: none !important;
-  }
+  .orb-a, .orb-b, .orb-c { animation: none; }
 }

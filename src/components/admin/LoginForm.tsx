@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { Eye, EyeOff, Loader2, Zap } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { markAdminSessionStart } from "@/app/actions/session";
 
 function LoginFormInner() {
   const router = useRouter();
@@ -31,6 +32,7 @@ function LoginFormInner() {
       setError("Invalid email or password.");
       return;
     }
+    await markAdminSessionStart();
     router.push(searchParams.get("next") ?? "/admin");
     router.refresh();
   }
@@ -42,7 +44,7 @@ function LoginFormInner() {
           <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-emerald-500 text-slate-950">
             <Zap size={22} strokeWidth={2.5} />
           </span>
-          <h1 className="mt-4 text-xl font-bold">Admin sign in</h1>
+          <h1 className="mt-4 text-xl font-bold text-[var(--foreground)]">Admin sign in</h1>
           <p className="mt-1 text-sm text-slate-400">
             Huawei ICT Academy management panel
           </p>

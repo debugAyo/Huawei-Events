@@ -10,7 +10,7 @@ export function Footer() {
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-500 text-slate-950">
               <Zap size={16} strokeWidth={2.5} />
             </span>
-            <span className="font-bold">Huawei ICT Academy</span>
+            <span className="font-bold text-white">Huawei ICT Academy</span>
           </div>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-400">
             The events platform of Huawei ICT Academy. Discover, register and grow
@@ -29,8 +29,8 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/admin" className="hover:text-emerald-400">
-                Admin dashboard
+              <Link href="/#about" className="hover:text-emerald-400">
+                About the academy
               </Link>
             </li>
           </ul>
