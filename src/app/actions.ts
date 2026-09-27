@@ -48,9 +48,7 @@ export async function registerForEvent(
   const fullName = String(formData.get("full_name") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phone = String(formData.get("phone") ?? "").trim();
-  const matricNumber = String(formData.get("matric_number") ?? "").trim();
   const department = String(formData.get("department") ?? "").trim();
-  const level = String(formData.get("level") ?? "").trim();
   const notes = String(formData.get("notes") ?? "").trim();
 
   const validationError = validateRegistrationInput({
@@ -75,9 +73,7 @@ export async function registerForEvent(
     p_full_name: fullName,
     p_email: email,
     p_phone: phone || null,
-    p_matric_number: matricNumber || null,
     p_department: department || null,
-    p_level: level || null,
     p_notes: notes || null,
   });
 

@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useSyncExternalStore,
+} from "react";
 import type { ReactNode } from "react";
 
 type Theme = "light" | "dark";
@@ -38,30 +44,49 @@ function persist(theme: Theme) {
   document.cookie = `theme=${theme}; path=/; max-age=31536000; samesite=lax`;
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+let current: Theme | null = null;
+const listeners = new Set<() => void>();
 
-  useEffect(() => {
-    const initial: Theme = readCookieTheme() ?? systemTheme();
-    setTheme(initial);
-    persist(initial);
-  }, []);
+function getSnapshot(): Theme {
+  if (current === null) {
+    current = readCookieTheme() ?? systemTheme();
+  }
+  return current;
+}
+
+function getServerSnapshot(): Theme {
+  return "light";
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+function setTheme(theme: Theme) {
+  current = theme;
+  for (const listener of listeners) listener();
+}
+
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const theme = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
   useEffect(() => {
     persist(theme);
   }, [theme]);
 
-  return (
-    <Ctx.Provider
-      value={{
-        theme,
-        setTheme,
-        toggle: () => setTheme((t) => (t === "dark" ? "light" : "dark")),
-      }}
-    >
-      {children}
-    </Ctx.Provider>
+  const value = useMemo<Value>(
+    () => ({
+      theme,
+      setTheme,
+      toggle: () => setTheme(theme === "dark" ? "light" : "dark"),
+    }),
+    [theme],
   );
+
+  return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }
 
 export function useTheme() {

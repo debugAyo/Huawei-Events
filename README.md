@@ -10,7 +10,7 @@ Event management platform for Huawei. Discover events, register in seconds
 - **Event detail pages** — cover image, date/time, venue, price, description,
   live capacity bar and a share-link button.
 - **One-click registration** — attendees give name + email (+ optional phone /
-  matric no / department) and get an instant confirmation with a reference
+  department) and get an instant confirmation with a reference
   number.
 - **Capacity + waitlist** — when an event is full, new registrations are
   automatically waitlisted with their queue position (handled atomically in

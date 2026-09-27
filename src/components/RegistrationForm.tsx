@@ -136,29 +136,16 @@ export function RegistrationForm({
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label htmlFor="matric_number" className="mb-1 block text-xs font-medium text-slate-400">
-            Matric no.
-          </label>
-          <input
-            id="matric_number"
-            name="matric_number"
-            placeholder="e.g. 2022/12345"
-            className="w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2.5 text-sm text-white placeholder:text-slate-600 focus:border-emerald-400 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="department" className="mb-1 block text-xs font-medium text-slate-400">
-            Department
-          </label>
-          <input
-            id="department"
-            name="department"
-            placeholder="e.g. Computer Eng."
-            className="w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2.5 text-sm text-white placeholder:text-slate-600 focus:border-emerald-400 focus:outline-none"
-          />
-        </div>
+      <div>
+        <label htmlFor="department" className="mb-1 block text-xs font-medium text-slate-400">
+          Department
+        </label>
+        <input
+          id="department"
+          name="department"
+          placeholder="e.g. Computer Eng."
+          className="w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2.5 text-sm text-white placeholder:text-slate-600 focus:border-emerald-400 focus:outline-none"
+        />
       </div>
 
       <div>
