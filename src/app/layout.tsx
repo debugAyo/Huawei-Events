@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "Discover, register for and manage events at Huawei ICT Academy.",
 };
 
-const NO_FOUC = `(function(){try{var c=document.cookie.match(/(?:^|; )theme=([^;]+)/);var t=c&&(c[1]==='dark'||c[1]==='light')?c[1]:null;if(!t)t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';var d=t==='dark';document.documentElement.classList.toggle('dark',d);document.documentElement.style.colorScheme=t;document.cookie='theme='+t+'; path=/; max-age=31536000; samesite=lax';}catch(e){}})();`;
+const NO_FOUC = `(function(){try{var c=document.cookie.match(/(?:^|; )theme=([^;]+)/);var t=c&&(c[1]==='dark'||c[1]==='light')?c[1]:'dark';var d=t==='dark';document.documentElement.classList.toggle('dark',d);document.documentElement.classList.toggle('light',!d);document.documentElement.style.colorScheme=t;document.cookie='theme='+t+'; path=/; max-age=31536000; samesite=lax';}catch(e){}})();`;
 
 export default function RootLayout({
   children,

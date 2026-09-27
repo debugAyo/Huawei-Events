@@ -8,20 +8,20 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const links = [
   { href: "/#events", label: "Events" },
-  { href: "/#about", label: "About" },
+  { href: "/about", label: "About" },
 ];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-[var(--background)]/85 backdrop-blur dark:border-white/10">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-emerald-500 text-slate-950">
             <Zap size={18} strokeWidth={2.5} />
           </span>
-          <span className="text-lg font-bold tracking-tight text-white">
+          <span className="text-lg font-bold tracking-tight text-[var(--foreground)]">
             Huawei<span className="text-emerald-400"> ICT Academy</span>
           </span>
         </Link>
@@ -31,7 +31,7 @@ export function Navbar() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-slate-300 transition hover:text-white"
+              className="text-sm font-medium text-[var(--muted-foreground)] transition hover:text-[var(--foreground)]"
             >
               {l.label}
             </Link>
@@ -40,7 +40,7 @@ export function Navbar() {
         </div>
 
         <button
-          className="rounded-lg p-2 text-slate-200 hover:bg-white/5 md:hidden"
+          className="rounded-lg p-2 text-[var(--foreground)] hover:bg-black/5 dark:hover:bg-white/5 md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
         >
@@ -49,13 +49,13 @@ export function Navbar() {
       </nav>
 
       <div className={cn("md:hidden", open ? "block" : "hidden")}>
-        <div className="space-y-1 border-t border-white/10 bg-slate-950/95 px-4 pb-4 pt-2">
+        <div className="space-y-1 border-t border-black/10 bg-[var(--background)] px-4 pb-4 pt-2 dark:border-white/10">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-white/5"
+              className="block rounded-lg px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-black/5 dark:hover:bg-white/5"
             >
               {l.label}
             </Link>

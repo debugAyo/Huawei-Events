@@ -27,9 +27,9 @@ export function EventCard({
   return (
     <Link
       href={`/events/${event.slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 transition hover:border-emerald-400/40 hover:shadow-lg hover:shadow-emerald-500/5"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] transition hover:border-emerald-400/40 hover:shadow-lg hover:shadow-emerald-500/5"
     >
-      <div className="relative aspect-[16/9] overflow-hidden bg-slate-800">
+      <div className="relative aspect-[16/9] overflow-hidden bg-[var(--surface-muted)]">
         {event.cover_image_url ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

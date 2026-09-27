@@ -20,7 +20,7 @@ export function ThemeToggle({
         title={theme === "dark" ? "Switch to light" : "Switch to dark"}
         aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
         className={cn(
-          "grid h-9 w-9 place-items-center rounded-lg border border-white/10 text-slate-300 transition hover:border-emerald-400/50 hover:text-emerald-300",
+          "grid h-9 w-9 place-items-center rounded-lg border border-[var(--border)] text-[var(--muted-foreground)] transition hover:border-emerald-400/50 hover:text-emerald-300",
           className,
         )}
       >
@@ -33,7 +33,7 @@ export function ThemeToggle({
     <button
       onClick={toggle}
       className={cn(
-        "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/5",
+        "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-[var(--foreground)] transition hover:bg-black/5 dark:hover:bg-white/5",
         className,
       )}
     >

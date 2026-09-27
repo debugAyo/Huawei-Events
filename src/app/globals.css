@@ -1,45 +1,18 @@
 @import "tailwindcss";
 
-/* Huawei ICT Academy — Huawei White (default) + Huawei Black (.dark)
+/* Huawei ICT Academy — Huawei Black (default) + Huawei White (.light)
    Huawei Red #C7000B is the one accent in both. Flat, no gradients,
    Tailwind v4 remaps color utilities to CSS vars. */
 
 :root {
-  --background: #ffffff;
-  --foreground: #141414;
-  --muted-foreground: #69717e;
-  --color-white: #ffffff;
-  --color-black: #141414;
-  --color-slate-50: #ffffff;
-  --color-slate-100: #f7f7f7;
-  --color-slate-200: #eceef1;
-  --color-slate-300: #e2e7ec;
-  --color-slate-400: #d4d8de;
-  --color-slate-500: #9aa1ab;
-  --color-slate-600: #69717e;
-  --color-slate-700: #4a4f5a;
-  --color-slate-800: #2e333d;
-  --color-slate-900: #191919;
-  --color-slate-950: #141414;
-  --color-emerald-50: #fdf2f3;
-  --color-emerald-100: #fcd9da;
-  --color-emerald-200: #c7000b;
-  --color-emerald-300: #c7000b;
-  --color-emerald-400: #c7000b;
-  --color-emerald-500: #c7000b;
-  --color-emerald-600: #b0000d;
-  --color-emerald-700: #8e000a;
-  --color-emerald-800: #6b0008;
-  --color-emerald-900: #470005;
-  --color-emerald-950: #290003;
-}
-
-.dark {
   --background: #000101;
   --foreground: #f7f7f7;
   --muted-foreground: #94a3b8;
+  --surface: #191919;
+  --surface-muted: #000101;
+  --border: rgba(255, 255, 255, 0.1);
   --color-white: #ffffff;
-  --color-black: #000101;
+  --color-black: #141414;
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;
   --color-slate-200: #e2e8f0;
@@ -62,7 +35,40 @@
   --color-emerald-800: #6b0008;
   --color-emerald-900: #470005;
   --color-emerald-950: #290003;
-  color-scheme: dark;
+}
+
+.light {
+  --background: #ffffff;
+  --foreground: #141414;
+  --muted-foreground: #69717e;
+  --surface: #f7f7f7;
+  --surface-muted: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --color-white: #ffffff;
+  --color-black: #000101;
+  --color-slate-50: #ffffff;
+  --color-slate-100: #f7f7f7;
+  --color-slate-200: #eceef1;
+  --color-slate-300: #e2e7ec;
+  --color-slate-400: #d4d8de;
+  --color-slate-500: #9aa1ab;
+  --color-slate-600: #69717e;
+  --color-slate-700: #4a4f5a;
+  --color-slate-800: #2e333d;
+  --color-slate-900: #191919;
+  --color-slate-950: #141414;
+  --color-emerald-50: #fdf2f3;
+  --color-emerald-100: #fcd9da;
+  --color-emerald-200: #c7000b;
+  --color-emerald-300: #c7000b;
+  --color-emerald-400: #c7000b;
+  --color-emerald-500: #c7000b;
+  --color-emerald-600: #b0000d;
+  --color-emerald-700: #8e000a;
+  --color-emerald-800: #6b0008;
+  --color-emerald-900: #470005;
+  --color-emerald-950: #290003;
+  color-scheme: light;
 }
 
 body {
@@ -70,6 +76,24 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
+
+.light [class~="text-white"] { color: var(--foreground) !important; }
+.light [class~="text-slate-100"],
+.light [class~="text-slate-200"],
+.light [class~="text-slate-300"] { color: #2e333d !important; }
+.light [class~="text-slate-400"] { color: #69717e !important; }
+.light [class~="text-slate-500"],
+.light [class~="text-slate-600"] { color: #4a4f5a !important; }
+.light [class~="bg-slate-950"] { background-color: #f7f7f7 !important; }
+.light [class~="bg-slate-900"] { background-color: #ffffff !important; }
+.light [class~="bg-slate-800"] { background-color: #eceef1 !important; }
+.light [class~="bg-white\/5"] { background-color: rgba(0, 0, 0, 0.04) !important; }
+.light [class~="bg-white\/10"] { background-color: rgba(0, 0, 0, 0.08) !important; }
+.light [class~="bg-white\/[0.02]"] { background-color: rgba(0, 0, 0, 0.02) !important; }
+.light [class~="border-white\/5"],
+.light [class~="border-white\/10"],
+.light [class~="border-white\/15"],
+.light [class~="border-white\/20"] { border-color: var(--border) !important; }
 
 @keyframes drift-1 {
   0%,

@@ -18,7 +18,7 @@ type Value = {
 };
 
 const Ctx = createContext<Value>({
-  theme: "light",
+  theme: "dark",
   setTheme: () => {},
   toggle: () => {},
 });
@@ -31,16 +31,11 @@ function readCookieTheme(): Theme | null {
   return v === "dark" || v === "light" ? v : null;
 }
 
-function systemTheme(): Theme {
-  if (typeof window === "undefined" || !window.matchMedia) return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
 function persist(theme: Theme) {
   if (typeof document === "undefined") return;
   document.documentElement.classList.toggle("dark", theme === "dark");
+  document.documentElement.classList.toggle("light", theme === "light");
+  document.documentElement.style.colorScheme = theme;
   document.cookie = `theme=${theme}; path=/; max-age=31536000; samesite=lax`;
 }
 
@@ -49,13 +44,13 @@ const listeners = new Set<() => void>();
 
 function getSnapshot(): Theme {
   if (current === null) {
-    current = readCookieTheme() ?? systemTheme();
+    current = readCookieTheme() ?? "dark";
   }
   return current;
 }
 
 function getServerSnapshot(): Theme {
-  return "light";
+  return "dark";
 }
 
 function subscribe(listener: () => void) {

@@ -49,7 +49,7 @@ export default async function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-white/10">
+      <section className="relative overflow-hidden border-b border-[var(--border)]">
         <div className="relative mx-auto max-w-6xl px-4 py-20 text-center sm:py-28">
           <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500 bg-emerald-500 px-4 py-1.5 text-xs font-semibold text-white">
             <Sparkles size={14} />
@@ -93,7 +93,7 @@ export default async function Home() {
         </div>
 
         {upcoming.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 bg-slate-900/40 p-12 text-center text-slate-400">
+          <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface)] p-12 text-center text-[var(--muted-foreground)]">
             No upcoming events right now — check back soon.
           </div>
         ) : (

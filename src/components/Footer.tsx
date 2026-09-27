@@ -3,14 +3,14 @@ import { Zap, Mail, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer id="about" className="border-t border-white/10 bg-slate-950">
+    <footer className="border-t border-[var(--border)] bg-[var(--surface-muted)]">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 lg:grid-cols-3">
         <div>
           <div className="flex items-center gap-2">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-emerald-500 text-slate-950">
               <Zap size={16} strokeWidth={2.5} />
             </span>
-            <span className="font-bold text-white">Huawei ICT Academy</span>
+            <span className="font-bold text-[var(--foreground)]">Huawei ICT Academy</span>
           </div>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-400">
             The events platform of Huawei ICT Academy. Discover, register and grow
@@ -29,7 +29,7 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/#about" className="hover:text-emerald-400">
+              <Link href="/about" className="hover:text-emerald-400">
                 About the academy
               </Link>
             </li>
