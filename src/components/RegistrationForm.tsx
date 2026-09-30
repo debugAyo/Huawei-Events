@@ -148,19 +148,6 @@ export function RegistrationForm({
         />
       </div>
 
-      <div>
-        <label htmlFor="notes" className="mb-1 block text-xs font-medium text-slate-400">
-          Anything we should know?
-        </label>
-        <textarea
-          id="notes"
-          name="notes"
-          rows={2}
-          placeholder="Dietary needs, questions, etc."
-          className="w-full resize-none rounded-lg border border-white/10 bg-slate-950 px-3 py-2.5 text-sm text-white placeholder:text-slate-600 focus:border-emerald-400 focus:outline-none"
-        />
-      </div>
-
       <button
         type="submit"
         disabled={pending}

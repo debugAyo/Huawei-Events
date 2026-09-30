@@ -49,7 +49,6 @@ export async function registerForEvent(
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const phone = String(formData.get("phone") ?? "").trim();
   const department = String(formData.get("department") ?? "").trim();
-  const notes = String(formData.get("notes") ?? "").trim();
 
   const validationError = validateRegistrationInput({
     eventId,
@@ -74,7 +73,6 @@ export async function registerForEvent(
     p_email: email,
     p_phone: phone || null,
     p_department: department || null,
-    p_notes: notes || null,
   });
 
   if (error) {
