@@ -143,6 +143,35 @@ export function EventForm({
               className={inputClass}
             />
           </div>
+          <div>
+            <label htmlFor="official_registration_url" className={labelClass}>
+              Official Registration URL
+            </label>
+            <input
+              id="official_registration_url"
+              name="official_registration_url"
+              type="url"
+              defaultValue={event?.official_registration_url ?? ""}
+              placeholder="https://e.huawei.com/..."
+              className={inputClass}
+            />
+            <p className="mt-1 text-xs text-slate-500">
+              Link to Huawei&apos;s official registration platform (optional)
+            </p>
+          </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="official_registration_message" className={labelClass}>
+              Official Registration Message
+            </label>
+            <textarea
+              id="official_registration_message"
+              name="official_registration_message"
+              rows={3}
+              defaultValue={event?.official_registration_message ?? ""}
+              placeholder="Custom instructions for attendees (optional). Default: 'Important: Your registration with us does not complete the official Huawei registration. Please click the button below to complete your registration on Huawei's official platform.'"
+              className={`${inputClass} resize-y`}
+            />
+          </div>
         </div>
       </div>
 

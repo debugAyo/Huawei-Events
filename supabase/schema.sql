@@ -84,6 +84,8 @@ create table if not exists public.events (
   status text not null default 'published'
     check (status in ('draft','published','cancelled','completed')),
   click_count bigint not null default 0,
+  official_registration_url text,
+  official_registration_message text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

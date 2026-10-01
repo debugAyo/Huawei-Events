@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 import {
   generateSlug,
   slugify,
+  isValidEmail,
 } from "@/lib/utils";
 import type { RegistrationStatus } from "@/lib/types";
 import {
@@ -118,7 +119,7 @@ async function notifyRegistration(
     const supabase = await createClient();
     const { data: event } = await supabase
       .from("events")
-      .select("title, start_time, venue, city, slug")
+      .select("title, start_time, venue, city, slug, official_registration_url, official_registration_message")
       .eq("id", eventId)
       .maybeSingle();
     if (!event) return;
@@ -135,6 +136,8 @@ async function notifyRegistration(
       status: info.status,
       waitlistPosition: info.waitlist_position,
       eventUrl: getEventShortUrl(event.slug),
+      officialRegistrationUrl: event.official_registration_url ?? undefined,
+      officialRegistrationMessage: event.official_registration_message ?? undefined,
     };
 
     await sendAttendeeConfirmation(info.email, emailData);
@@ -294,4 +297,74 @@ export async function updateRegistrationStatus(
     await supabase.from("registrations").update({ status }).eq("id", id);
   }
   revalidatePath("/admin", "layout");
+}
+
+// ---------------------------------------------------------------------------
+// Public — attendee dashboard (email lookup)
+// ---------------------------------------------------------------------------
+
+export interface MyRegistration {
+  id: string;
+  status: string;
+  created_at: string;
+  full_name: string;
+  email: string;
+  phone: string | null;
+  matric_number: string | null;
+  department: string | null;
+  level: string | null;
+  notes: string | null;
+  event: {
+    id: string;
+    title: string;
+    slug: string;
+    start_time: string;
+    venue: string | null;
+    city: string | null;
+    cover_image_url: string | null;
+    official_registration_url: string | null;
+  };
+}
+
+const myRegistrationsLimiter = createRateLimiter({
+  limit: 5,
+  windowMs: 60_000,
+});
+
+export async function getMyRegistrations(email: string): Promise<{
+  data: MyRegistration[] | null;
+  error?: string | undefined;
+}> {
+  const normalizedEmail = email.trim().toLowerCase();
+
+  if (!normalizedEmail || !isValidEmail(normalizedEmail)) {
+    return { data: null, error: "Please enter a valid email address." };
+  }
+
+  if (!myRegistrationsLimiter({ key: `my-reg:${normalizedEmail}` })) {
+    return { data: null, error: "Too many requests. Please try again in a minute." };
+  }
+
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("registrations")
+    .select(
+      `id, status, created_at, full_name, email, phone, matric_number, department, level, notes, event:events!inner(id, title, slug, start_time, venue, city, cover_image_url, official_registration_url)`
+    )
+    .eq("email", normalizedEmail)
+    .neq("status", "cancelled")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return { data: null, error: "Failed to fetch registrations. Please try again." };
+  }
+
+  // Transform the data to match MyRegistration type (Supabase returns event as array)
+  const transformedData = (data ?? []).map((row) => ({
+    ...row,
+    event: Array.isArray(row.event) ? row.event[0] : row.event,
+  })) as MyRegistration[];
+
+  return { data: transformedData, error: undefined };
 }

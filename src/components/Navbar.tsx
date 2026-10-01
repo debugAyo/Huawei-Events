@@ -9,6 +9,7 @@ import { ThemeToggle } from "./ThemeToggle";
 const links = [
   { href: "/#events", label: "Events" },
   { href: "/about", label: "About" },
+  { href: "/my-registrations", label: "My Registrations" },
 ];
 
 export function Navbar() {

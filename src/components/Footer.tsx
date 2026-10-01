@@ -33,6 +33,11 @@ export function Footer() {
                 About the academy
               </Link>
             </li>
+            <li>
+              <Link href="/my-registrations" className="hover:text-emerald-400">
+                My Registrations
+              </Link>
+            </li>
           </ul>
         </div>
 

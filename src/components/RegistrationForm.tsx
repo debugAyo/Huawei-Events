@@ -8,6 +8,7 @@ import {
   AlertTriangle,
   Ticket,
   Link2,
+  ExternalLink,
 } from "lucide-react";
 import { registerForEvent } from "@/app/actions";
 import { cn } from "@/lib/utils";
@@ -16,10 +17,14 @@ export function RegistrationForm({
   eventId,
   isPast,
   shortUrl,
+  officialRegistrationUrl,
+  officialRegistrationMessage,
 }: {
   eventId: string;
   isPast: boolean;
   shortUrl: string;
+  officialRegistrationUrl?: string;
+  officialRegistrationMessage?: string;
 }) {
   const [state, action, pending] = useActionState(registerForEvent, {});
 
@@ -81,6 +86,25 @@ export function RegistrationForm({
             <span className="truncate">{shortUrl}</span>
           </div>
         </div>
+
+        {officialRegistrationUrl && (
+          <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4">
+            <p className="text-sm text-emerald-200">
+              <strong>Next step:</strong>{" "}
+              {officialRegistrationMessage ||
+                "Complete your registration on Huawei's official platform."}
+            </p>
+            <a
+              href={officialRegistrationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
+            >
+              <ExternalLink size={16} className="shrink-0" />
+              Complete Official Registration on Huawei Platform
+            </a>
+          </div>
+        )}
       </div>
     );
   }

@@ -31,6 +31,8 @@ export interface EventRow {
   category: EventCategory | null;
   status: EventStatus;
   click_count: number;
+  official_registration_url: string | null;
+  official_registration_message: string | null;
   created_at: string;
   updated_at: string;
 }

@@ -71,18 +71,32 @@ export interface RegistrationEmailData {
   status: string;
   waitlistPosition?: number;
   eventUrl: string;
+  officialRegistrationUrl?: string;
+  officialRegistrationMessage?: string;
 }
 
 export async function sendAttendeeConfirmation(
   to: string,
   data: RegistrationEmailData,
 ): Promise<boolean> {
+  const hasOfficialUrl = Boolean(data.officialRegistrationUrl);
+  const defaultMessage =
+    "Important: Your registration with us does not complete the official Huawei registration. Please click the button below to complete your registration on Huawei's official platform.";
+  const customMessage = data.officialRegistrationMessage ?? defaultMessage;
+
   const body =
     data.status === "waitlisted"
       ? `<p style="margin:0 0 16px;font-size:14px;line-height:1.6">Hi ${esc(data.fullName)},</p>
          <p style="margin:0 0 16px;font-size:14px;line-height:1.6">The event is full, so you've been added to the waitlist for <strong>${esc(data.eventTitle)}</strong>. You are position <strong>#${data.waitlistPosition ?? 1}</strong>. We'll email you if a spot opens up.</p>`
       : `<p style="margin:0 0 16px;font-size:14px;line-height:1.6">Hi ${esc(data.fullName)},</p>
          <p style="margin:0 0 16px;font-size:14px;line-height:1.6">You're confirmed for <strong>${esc(data.eventTitle)}</strong>. Here are your details:</p>`;
+
+  const officialButton = hasOfficialUrl
+    ? `<p style="margin:24px 0 16px;font-size:14px;line-height:1.6"><strong>${esc(customMessage)}</strong></p>
+       <p style="margin:0"><a href="${esc(data.officialRegistrationUrl!)}" style="display:inline-block;background:#c7000b;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:14px 24px;border-radius:8px">Complete Official Registration on Huawei Platform</a></p>
+       <p style="margin:16px 0 0;font-size:13px;color:#666">Or <a href="${esc(data.eventUrl)}" style="color:#c7000b">view event details</a> on our site.</p>`
+    : `<p style="margin:0"><a href="${esc(data.eventUrl)}" style="display:inline-block;background:#c7000b;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 20px;border-radius:8px">View event details</a></p>`;
+
   const html = shell(
     data.status === "waitlisted" ? "You're on the waitlist" : "Registration confirmed",
     `${body}
@@ -93,9 +107,13 @@ export async function sendAttendeeConfirmation(
        ${infoRow("Venue", `${data.venue}, ${data.city}`)}
        ${infoRow("Confirmation", data.registrationId)}
      </table>
-     <p style="margin:0"><a href="${esc(data.eventUrl)}" style="display:inline-block;background:#c7000b;color:#ffffff;text-decoration:none;font-weight:700;font-size:14px;padding:12px 20px;border-radius:8px">View event details</a></p>`,
+     ${officialButton}`,
   );
-  return sendEmail({ to, subject: `Registration ${data.status === "waitlisted" ? "waitlist" : "confirmed"} – ${data.eventTitle}`, html });
+  return sendEmail({
+    to,
+    subject: `Registration ${data.status === "waitlisted" ? "waitlist" : "confirmed"} – ${data.eventTitle}`,
+    html,
+  });
 }
 
 export async function sendAdminNewRegistration(
