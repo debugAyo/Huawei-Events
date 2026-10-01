@@ -207,6 +207,10 @@ function parseEventForm(formData: FormData) {
     price: parseFloat(String(formData.get("price") ?? "0")) || 0,
     cover_image_url:
       String(formData.get("cover_image_url") ?? "").trim() || null,
+    official_registration_url:
+      String(formData.get("official_registration_url") ?? "").trim() || null,
+    official_registration_message:
+      String(formData.get("official_registration_message") ?? "").trim() || null,
     description: String(formData.get("description") ?? "").trim(),
     status: String(formData.get("status") ?? "published"),
     organizer:
