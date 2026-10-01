@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useEffect } from "react";
 import {
   CalendarCheck,
   Loader2,
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import { registerForEvent } from "@/app/actions";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/Toast";
 
 export function RegistrationForm({
   eventId,
@@ -26,7 +28,20 @@ export function RegistrationForm({
   officialRegistrationUrl?: string;
   officialRegistrationMessage?: string;
 }) {
+  const { warning, success: toastSuccess } = useToast();
   const [state, action, pending] = useActionState(registerForEvent, {});
+
+  useEffect(() => {
+    if (state.success) {
+      toastSuccess(state.status === "waitlisted" ? "You're on the waitlist!" : "Registration successful!");
+      if (state.emailErrors && state.emailErrors.length > 0) {
+        warning("Registration confirmed, but confirmation email could not be sent. Please check your spam folder or contact support.");
+      }
+    }
+    if (state.error) {
+      warning(state.error);
+    }
+  }, [state, toastSuccess, warning]);
 
   if (isPast) {
     return (
@@ -149,7 +164,7 @@ export function RegistrationForm({
 
       <div>
         <label htmlFor="phone" className="mb-1 block text-xs font-medium text-slate-400">
-          Phone
+          Phone number (WhatsApp number)
         </label>
         <input
           id="phone"

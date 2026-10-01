@@ -13,15 +13,21 @@ function capMinutes(): number {
   return Number.isFinite(n) && n > 0 ? n : DEFAULT_MINUTES;
 }
 
-export async function markAdminSessionStart() {
-  const store = await cookies();
-  store.set(COOKIE, String(Date.now()), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: capMinutes() * 60,
-  });
+export async function markAdminSessionStart(): Promise<{ success: boolean; error?: string }> {
+  try {
+    const store = await cookies();
+    store.set(COOKIE, String(Date.now()), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: capMinutes() * 60,
+    });
+    return { success: true };
+  } catch (err) {
+    console.error("[markAdminSessionStart] error:", err);
+    return { success: false, error: "Failed to initialize admin session. Please try again." };
+  }
 }
 
 export async function adminSessionState(): Promise<"ok" | "expired"> {

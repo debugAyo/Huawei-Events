@@ -34,6 +34,8 @@ export interface RegisterState {
   waitlist_position?: number;
   registration_id?: string;
   email?: string;
+  emailSent?: boolean;
+  emailErrors?: string[];
 }
 
 const registrationLimiter = createRateLimiter({
@@ -86,14 +88,19 @@ export async function registerForEvent(
     return { error: "Something went wrong. Please try again." };
   }
 
+  let emailSent = false;
+  let emailErrors: string[] = [];
+
   if (isEmailConfigured) {
-    void notifyRegistration(eventId, {
+    const emailResult = await notifyRegistration(eventId, {
       fullName,
       email,
       registrationId: data.registration_id as string,
       status: data.status as RegistrationStatus,
       waitlist_position: data.waitlist_position as number,
     });
+    emailSent = emailResult.attendeeEmailSent;
+    emailErrors = emailResult.errors;
   }
 
   return {
@@ -102,6 +109,8 @@ export async function registerForEvent(
     waitlist_position: data.waitlist_position as number,
     registration_id: data.registration_id as string,
     email,
+    emailSent,
+    emailErrors,
   };
 }
 
@@ -114,7 +123,11 @@ async function notifyRegistration(
     status: RegistrationStatus;
     waitlist_position: number;
   },
-): Promise<void> {
+): Promise<{ attendeeEmailSent: boolean; adminEmailSent: boolean; errors: string[] }> {
+  const errors: string[] = [];
+  let attendeeEmailSent = false;
+  let adminEmailSent = false;
+
   try {
     const supabase = await createClient();
     const { data: event } = await supabase
@@ -122,7 +135,7 @@ async function notifyRegistration(
       .select("title, start_time, venue, city, slug, official_registration_url, official_registration_message")
       .eq("id", eventId)
       .maybeSingle();
-    if (!event) return;
+    if (!event) return { attendeeEmailSent: false, adminEmailSent: false, errors: ["Event not found"] };
 
     const emailData: RegistrationEmailData = {
       eventTitle: event.title,
@@ -140,15 +153,31 @@ async function notifyRegistration(
       officialRegistrationMessage: event.official_registration_message ?? undefined,
     };
 
-    await sendAttendeeConfirmation(info.email, emailData);
+    const attendeeResult = await sendAttendeeConfirmation(info.email, emailData);
+    if (attendeeResult.success) {
+      attendeeEmailSent = true;
+    } else {
+      errors.push(`Attendee email failed: ${attendeeResult.error}`);
+      console.error("[email] attendee confirmation failed:", attendeeResult.error);
+    }
 
     const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL;
     if (adminEmail) {
-      await sendAdminNewRegistration(adminEmail, emailData);
+      const adminResult = await sendAdminNewRegistration(adminEmail, emailData);
+      if (adminResult.success) {
+        adminEmailSent = true;
+      } else {
+        errors.push(`Admin email failed: ${adminResult.error}`);
+        console.error("[email] admin notification failed:", adminResult.error);
+      }
     }
   } catch (err) {
-    console.error("[email] failed to notify", err);
+    const msg = err instanceof Error ? err.message : "Unknown error";
+    errors.push(`Email notification exception: ${msg}`);
+    console.error("[email] failed to notify:", err);
   }
+
+  return { attendeeEmailSent, adminEmailSent, errors };
 }
 
 // ---------------------------------------------------------------------------

@@ -6,19 +6,19 @@ import { Suspense } from "react";
 import { Eye, EyeOff, Loader2, Zap } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { markAdminSessionStart } from "@/app/actions/session";
+import { useToast } from "@/components/Toast";
 
 function LoginFormInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { error: toastError, success: toastSuccess } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
     setLoading(true);
 
     const supabase = createClient();
@@ -27,12 +27,21 @@ function LoginFormInner() {
       password,
     });
 
-    setLoading(false);
     if (error) {
-      setError("Invalid email or password.");
+      setLoading(false);
+      toastError("Invalid email or password.");
       return;
     }
-    await markAdminSessionStart();
+
+    const { success, error: sessionError } = await markAdminSessionStart();
+    setLoading(false);
+
+    if (!success) {
+      toastError(sessionError ?? "Failed to initialize admin session. Please try again.");
+      return;
+    }
+
+    toastSuccess("Welcome back!");
     router.push(searchParams.get("next") ?? "/admin");
     router.refresh();
   }
@@ -57,11 +66,6 @@ function LoginFormInner() {
           {searchParams.get("error") === "not_admin" && (
             <p className="rounded-lg bg-amber-500/10 px-3 py-2 text-sm text-amber-300">
               Your account does not have admin access.
-            </p>
-          )}
-          {error && (
-            <p className="rounded-lg bg-rose-500/10 px-3 py-2 text-sm text-rose-300">
-              {error}
             </p>
           )}
 

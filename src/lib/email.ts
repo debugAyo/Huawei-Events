@@ -10,8 +10,10 @@ export async function sendEmail(opts: {
   to: string | string[];
   subject: string;
   html: string;
-}): Promise<boolean> {
-  if (!RESEND_API_KEY) return false;
+}): Promise<{ success: boolean; error?: string }> {
+  if (!RESEND_API_KEY) {
+    return { success: false, error: "RESEND_API_KEY not configured" };
+  }
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -30,9 +32,9 @@ export async function sendEmail(opts: {
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     console.error("[email] Resend error", res.status, text);
-    return false;
+    return { success: false, error: `Resend API error (${res.status}): ${text}` };
   }
-  return true;
+  return { success: true };
 }
 
 function shell(title: string, body: string): string {
@@ -78,7 +80,7 @@ export interface RegistrationEmailData {
 export async function sendAttendeeConfirmation(
   to: string,
   data: RegistrationEmailData,
-): Promise<boolean> {
+): Promise<{ success: boolean; error?: string }> {
   const hasOfficialUrl = Boolean(data.officialRegistrationUrl);
   const defaultMessage =
     "Important: Your registration with us does not complete the official Huawei registration. Please click the button below to complete your registration on Huawei's official platform.";
@@ -119,7 +121,7 @@ export async function sendAttendeeConfirmation(
 export async function sendAdminNewRegistration(
   adminEmail: string,
   data: RegistrationEmailData,
-): Promise<boolean> {
+): Promise<{ success: boolean; error?: string }> {
   const html = shell(
     "New registration",
     `<p style="margin:0 0 16px;font-size:14px;line-height:1.6"><strong>${esc(data.fullName)}</strong> registered for <strong>${esc(data.eventTitle)}</strong>.</p>
