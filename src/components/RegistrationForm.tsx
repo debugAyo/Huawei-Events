@@ -18,11 +18,13 @@ export function RegistrationForm({
   isPast,
   shortUrl,
   officialRegistrationUrl,
+  officialRegistrationMessage,
 }: {
   eventId: string;
   isPast: boolean;
   shortUrl: string;
   officialRegistrationUrl?: string;
+  officialRegistrationMessage?: string;
 }) {
   const [state, action, pending] = useActionState(registerForEvent, {});
 
@@ -86,7 +88,11 @@ export function RegistrationForm({
         {officialRegistrationUrl && (
           <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4">
             <p className="text-sm text-emerald-200">
-              <strong>Next step:</strong> Complete your registration on Huawei&apos;s official platform.
+              {officialRegistrationMessage || (
+                <>
+                  <strong>Next step:</strong> Complete your registration on Huawei&apos;s official platform.
+                </>
+              )}
             </p>
             <a
               href={officialRegistrationUrl}
