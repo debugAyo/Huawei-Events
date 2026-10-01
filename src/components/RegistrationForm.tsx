@@ -20,13 +20,11 @@ export function RegistrationForm({
   isPast,
   shortUrl,
   officialRegistrationUrl,
-  officialRegistrationMessage,
 }: {
   eventId: string;
   isPast: boolean;
   shortUrl: string;
   officialRegistrationUrl?: string;
-  officialRegistrationMessage?: string;
 }) {
   const { warning, success: toastSuccess } = useToast();
   const [state, action, pending] = useActionState(registerForEvent, {});
@@ -37,9 +35,6 @@ export function RegistrationForm({
       if (state.emailErrors && state.emailErrors.length > 0) {
         warning("Registration confirmed, but confirmation email could not be sent. Please check your spam folder or contact support.");
       }
-    }
-    if (state.error) {
-      warning(state.error);
     }
   }, [state, toastSuccess, warning]);
 
@@ -67,20 +62,6 @@ export function RegistrationForm({
                 ? "You're on the waitlist"
                 : "You're registered!"}
             </p>
-            {state.status === "waitlisted" ? (
-              <p className="mt-1 text-slate-300">
-                You are position <strong>#{state.waitlist_position}</strong>. We
-                will email you at{" "}
-                <strong className="break-all">{state.email}</strong> if a spot
-                opens up.
-              </p>
-            ) : (
-              <p className="mt-1 text-slate-300">
-                A confirmation was sent to{" "}
-                <strong className="break-all">{state.email}</strong>. See you
-                there!
-              </p>
-            )}
           </div>
         </div>
 
@@ -105,9 +86,7 @@ export function RegistrationForm({
         {officialRegistrationUrl && (
           <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4">
             <p className="text-sm text-emerald-200">
-              <strong>Next step:</strong>{" "}
-              {officialRegistrationMessage ||
-                "Complete your registration on Huawei's official platform."}
+              <strong>Next step:</strong> Complete your registration on Huawei&apos;s official platform.
             </p>
             <a
               href={officialRegistrationUrl}

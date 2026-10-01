@@ -269,7 +269,6 @@ export default async function EventPage({
               isPast={isPast}
               shortUrl={shortUrl}
               officialRegistrationUrl={event.official_registration_url ?? undefined}
-              officialRegistrationMessage={event.official_registration_message ?? undefined}
             />
 
             <div className="mt-5 border-t border-white/10 pt-4">

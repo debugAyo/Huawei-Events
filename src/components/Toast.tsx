@@ -26,10 +26,10 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | null>(null);
 
 const icons: Record<ToastType, ReactNode> = {
-  success: <CheckCircle size={20} className="shrink-0" />,
-  error: <AlertCircle size={20} className="shrink-0" />,
-  warning: <AlertTriangle size={20} className="shrink-0" />,
-  info: <Info size={20} className="shrink-0" />,
+  success: <CheckCircle size={16} className="shrink-0" />,
+  error: <AlertCircle size={16} className="shrink-0" />,
+  warning: <AlertTriangle size={16} className="shrink-0" />,
+  info: <Info size={16} className="shrink-0" />,
 };
 
 const styles: Record<ToastType, string> = {
@@ -43,19 +43,19 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: (id: string)
   return (
     <div
       className={cn(
-        "flex items-start gap-3 rounded-xl border p-4 animate-in slide-in-from-right-full duration-300",
+        "flex items-center gap-2 rounded-lg border px-3 py-2 animate-in slide-in-from-right-full duration-200",
         styles[toast.type]
       )}
       role="alert"
     >
-      <div className="flex-shrink-0 mt-0.5 text-current">{icons[toast.type]}</div>
-      <p className="flex-1 text-sm leading-relaxed">{toast.message}</p>
+      <div className="flex-shrink-0 text-current">{icons[toast.type]}</div>
+      <p className="text-xs leading-snug flex-1">{toast.message}</p>
       <button
         onClick={() => onDismiss(toast.id)}
-        className="flex-shrink-0 p-1 text-current/60 hover:text-current transition"
+        className="flex-shrink-0 p-0.5 text-current/60 hover:text-current transition"
         aria-label="Dismiss"
       >
-        <X size={16} />
+        <X size={12} />
       </button>
     </div>
   );
@@ -68,7 +68,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const toast = useCallback((message: string, type: ToastType, duration = 5000) => {
+  const toast = useCallback((message: string, type: ToastType, duration = 4000) => {
     const id = Math.random().toString(36).slice(2, 9);
     setToasts((prev) => [...prev, { id, message, type, duration }]);
     if (duration > 0) {
@@ -86,7 +86,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ toasts, toast, dismiss, ...helpers }}>
       {children}
-      <div className="fixed bottom-5 right-5 z-[100] flex flex-col gap-2 max-w-sm w-full sm:max-w-md pointer-events-none">
+      <div className="fixed bottom-4 right-4 z-[100] flex flex-col gap-1.5 max-w-xs w-full pointer-events-none">
         {toasts.map((t) => (
           <div key={t.id} className="pointer-events-auto">
             <ToastItem toast={t} onDismiss={dismiss} />
