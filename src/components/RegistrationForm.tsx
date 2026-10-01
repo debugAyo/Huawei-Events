@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState } from "react";
-import { useEffect } from "react";
 import {
   CalendarCheck,
   Loader2,
@@ -13,7 +12,6 @@ import {
 } from "lucide-react";
 import { registerForEvent } from "@/app/actions";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/components/Toast";
 
 export function RegistrationForm({
   eventId,
@@ -26,17 +24,7 @@ export function RegistrationForm({
   shortUrl: string;
   officialRegistrationUrl?: string;
 }) {
-  const { warning, success: toastSuccess } = useToast();
   const [state, action, pending] = useActionState(registerForEvent, {});
-
-  useEffect(() => {
-    if (state.success) {
-      toastSuccess(state.status === "waitlisted" ? "You're on the waitlist!" : "Registration successful!");
-      if (state.emailErrors && state.emailErrors.length > 0) {
-        warning("Registration confirmed, but confirmation email could not be sent. Please check your spam folder or contact support.");
-      }
-    }
-  }, [state, toastSuccess, warning]);
 
   if (isPast) {
     return (
@@ -82,6 +70,18 @@ export function RegistrationForm({
             <span className="truncate">{shortUrl}</span>
           </div>
         </div>
+
+        {state.emailErrors && state.emailErrors.length > 0 && (
+          <div
+            className="flex items-start gap-2 rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm text-amber-200"
+            role="status"
+          >
+            <AlertTriangle size={18} className="mt-0.5 shrink-0" />
+            <p>
+              Registration is confirmed, but we could not send the confirmation email. Please check your spam folder or contact support.
+            </p>
+          </div>
+        )}
 
         {officialRegistrationUrl && (
           <div className="rounded-xl border border-emerald-400/30 bg-emerald-400/10 p-4">
